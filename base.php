@@ -1,4 +1,6 @@
 <?php
+require("lib/bencode.php");
+
 /**
  * The default timeout value to be used in between
  * request to the tracker from the clients.
@@ -37,14 +39,73 @@ function random_string($length) {
     return $random;
 }
 
+function flush_files(&$db, &$path, $delete = true) {
+    $handle = opendir($path); 
+
+    while(true){ 
+        $file_name = readdir($handle);
+        
+        if($file_name === false) { break; }
+        
+        $extension = strtolower(substr(strrchr($file_name, "."), 1)); 
+        if($extension != "torrent") { continue; }
+        
+        $file_path = $path."/".$file_name;
+        
+        $torrent = Lightbenc::bdecode_file($file_path);
+        $info = $torrent["info"];
+        $info_encoded = Lightbenc::bencode($info);
+        
+        $info_hash = sha1($info_encoded, true);
+        $info_hash_b64 = base64_encode($info_hash);
+        
+        $files = $info["files"];
+        
+        if($files) {
+        } else {
+            $file = array(
+                "info_hash" => $info_hash,
+                "info_hash_b64" => $info_hash_b64,
+                "comment" => $torrent["comment"],
+                "name" => $info["name"],
+                "size" => $info["length"],
+                "md5" => $info["md5sum"],
+                "mode" => 1,
+            );
+        }
+        
+        ensure_file($db, $file);
+        
+        $delete && unlink($file_path);
+    } 
+
+    closedir($handle);
+    
+    return $random;
+}
+
+function ensure_file(&$db, &$file) {
+    $query = sprintf("select count(1) from file where info_hash = '%s'", $file["info_hash_b64"]);
+    $exists = $db->querySingle($query);
+
+    if($exists == 0) {
+        $query = sprintf("insert into file(info_hash, comment, name, size, md5, mode) values('%s', '%s', '%s', '%d', '%s', '%d')", $file["info_hash_b64"], $file["comment"], $file["name"], $file["size"], $file["md5"], $file["mode"]);
+        $db->exec($query);
+    } else {
+        $query = sprintf("update file set comment = '%s', name = '%s', size = %d, md5 = '%s', mode = %d where info_hash = '%s'", $file["comment"], $file["name"], $file["size"], $file["md5"], $file["mode"], $file["info_hash_b64"]);
+        $db->exec($query);
+    }
+}
+
 function create_database(&$db) {
     $db->exec("create table configuration(key string, value string)");
-    $db->exec("create table file(info_hash string, size integer)");
+    $db->exec("create table file(info_hash string, comment string, name string, size integer, md5 string, mode integer)");
     $db->exec("create table peer(peer_id string, ip string, port string, client string, version string)");
     $db->exec("create table peer_file(peer_id string, info_hash string, client string, version string, downloaded integer, uploaded integer, left integer, status integer, timestamp double precision)");
 
     $db->exec("create index configuration_key on configuration(key)");
     $db->exec("create index file_info_hash on file(info_hash)");
+    $db->exec("create index file_name on file(name)");
     $db->exec("create index peer_peer_id on peer(peer_id)");
     $db->exec("create index peer_file_peer_id on peer_file(peer_id)");
     $db->exec("create index peer_file_info_hash on peer_file(info_hash)");
@@ -55,6 +116,11 @@ function create_configuration(&$db) {
     $tracker_id = random_string(20);
     $query = sprintf("insert into configuration(key, value) values('%s', '%s')", "tracker_id", $tracker_id);
     $db->exec($query);
+}
+
+function delete_database() {
+    global $DATABASE_PATH;
+    unlink($DATABASE_PATH);
 }
 
 function &get_peers(&$db, &$info_hash_b64, &$compact = 0, &$extended = 0) {
@@ -114,11 +180,14 @@ function &get_files(&$db) {
         $file = array(
             "info_hash" => base64_decode($row["info_hash"]),
             "info_hash_b64" => $row["info_hash"],
+            "name" => $row["name"],
             "size" => $row["size"],
+            "md5" => $row["md5"],
+            "mode" => $row["mode"],
         );
         $files[] = $file;
     }
-    
+
     return $files;
 }
 
@@ -129,7 +198,11 @@ function &get_file(&$db, &$info_hash_b64) {
     $file = array(
         "info_hash" => base64_decode($row["info_hash"]),
         "info_hash_b64" => $row["info_hash"],
+        "comment" => $row["comment"],
+        "name" => $row["name"],
         "size" => $row["size"],
+        "md5" => $row["md5"],
+        "mode" => $row["mode"],
     );
     
     $file["peers"] = get_peers($db, $info_hash_b64);
