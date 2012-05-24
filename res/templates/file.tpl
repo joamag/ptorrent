@@ -4,6 +4,7 @@
 	</head>
 	<body>
 		<ul>
+            <li>Name -> {$file.name}</li>
 			<li>Info Hash -> {$file.info_hash_b64}</li>
             <li>Size -> {$file.size}</li>
             <li>Seeders -> {$file.complete}</li>

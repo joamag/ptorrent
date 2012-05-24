@@ -6,7 +6,7 @@
 		<ul>
 			{foreach from=$files item=file}
 				<li>
-                    <a href="file.php?info_hash={$file.info_hash_b64}">{$file.info_hash_b64} ({$file.size} bytes)</a>
+                    <a href="file.php?info_hash={$file.info_hash_b64}">{$file.name} ({$file.size} bytes)</a>
                 </li>
 			{/foreach}
         </ul>
