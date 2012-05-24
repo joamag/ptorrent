@@ -1,6 +1,5 @@
 <?php
 require("lib/Smarty.class.php");
-require("lib/bencode.php");
 require("base.php");
 
 // retrieves the parameters to the execution
