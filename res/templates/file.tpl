@@ -20,7 +20,6 @@
                 <li>Status -> {$peer.status}</li>
                 <li>Downloaded -> {$peer.downloaded}</li>
                 <li>Uploaded -> {$peer.uploaded}</li>
-                <li>Peer ID -> {$peer.tobias}</li>
                 <li></li>
             {/foreach}
         </ul>
