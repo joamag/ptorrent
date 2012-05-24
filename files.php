@@ -1,6 +1,5 @@
 <?php
 require("lib/Smarty.class.php");
-require("lib/bencode.php");
 require("base.php");
 
 // checks if the database file path exits in case
