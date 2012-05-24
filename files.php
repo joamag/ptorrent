@@ -1,4 +1,5 @@
 <?php
+require("lib/Smarty.class.php");
 require("lib/bencode.php");
 require("base.php");
 
@@ -11,9 +12,7 @@ $is_new && create_database($db);
 $is_new && create_configuration($db);
 $files = get_files($db);
 $db->close();
-print_r($files);
 
-require("lib/Smarty.class.php");
 $smarty = new Smarty();
 
 $smarty->setTemplateDir("res/templates");
@@ -21,12 +20,6 @@ $smarty->setCompileDir("res/templates_c");
 $smarty->setCacheDir("res/cache");
 $smarty->setConfigDir("res/configs");
 
-$smarty->assign("name", "Ned");
-$smarty->display("index.tpl");
-
-foreach($files as &$file) {
-    printf($file["info_hash"]);
-    printf($file["size"]);
-}
-
+$smarty->assign("files", $files);
+$smarty->display("files.tpl");
 ?>
