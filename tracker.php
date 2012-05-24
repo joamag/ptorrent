@@ -20,7 +20,7 @@ $valid = validate_structure($structure);
 $valid && ensure_structure($db, $structure);
 $complete = $valid ? get_complete($db, $structure["info_hash_b64"]) : 0;
 $incomplete = $valid ? get_incomplete($db, $structure["info_hash_b64"]) : 0;
-$peers = $valid ? get_peers($db, $structure["info_hash_b64"]) : array();
+$peers = $valid ? get_peers($db, $structure["info_hash_b64"], $structure["compact"]) : array();
 $tracker_id = $valid ? get_configuration($db, $key = "tracker_id") : "default";
 $db->close();
 
