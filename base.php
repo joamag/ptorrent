@@ -84,6 +84,23 @@ function &get_peers(&$db, &$info_hash_b64) {
     return $peers;
 }
 
+function &get_files(&$db) {
+    $query = sprintf("select * from file");
+    $results = $db->query($query);
+    
+    $files = array();
+    
+    while($row = $results->fetchArray()) {
+        $file = array(
+            "info_hash" => $row["info_hash"],
+            "size" => $row["size"],
+        );
+        $files[] = $file;
+    }
+    
+    return $files;
+}
+
 function &get_complete(&$db, &$info_hash_b64) {
     $query = sprintf("select count(1) from peer_file where peer_file.info_hash = '%s' and peer_file.status = 2", $info_hash_b64);
     $complete = $db->querySingle($query);
