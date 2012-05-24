@@ -1,6 +1,6 @@
 <?php
-include "lib/bencode.php";
-include "base.php";
+require("lib/bencode.php");
+require("base.php");
 
 // loads the structure for the current request
 // and then loads it string value
