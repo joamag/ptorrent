@@ -57,29 +57,49 @@ function create_configuration(&$db) {
     $db->exec($query);
 }
 
-function &get_peers(&$db, &$info_hash_b64) {
+function &get_peers(&$db, &$info_hash_b64, &$compact = 0, &$extended = 0) {
     $query = sprintf("select * from peer_file inner join peer on peer_file.peer_id = peer.peer_id where peer_file.info_hash = '%s'", $info_hash_b64);
     $results = $db->query($query);
     
     $peers = array();
     
     while($row = $results->fetchArray()) {
-        if($structure["compact"] == 1) {
+        if($compact == 1) {
             $port = intval($row["port"]);
             $ip_split = explode(".", $row["ip"]);
             $ip_integer = intval($ip_split[0]) << 24 | intval($ip_split[1]) << 16 | intval($ip_split[2]) << 8 | intval($ip_split[3]);
             $peer = pack("Nn", $ip_integer, $port);
         } else {
-            $peer = array(
-                "peer id" => base64_decode($row["peer_id"]),
-                "ip" => $row["ip"],
-                "port" => intval($row["port"]),
-                "isDct" => true,
-            );
+            if($extended == 1) {
+                $peer = array(
+                    "peer id" => base64_decode($row["peer_id"]),
+                    "ip" => $row["ip"],
+                    "port" => intval($row["port"]),
+                    "isDct" => true,
+                );
+            } else {
+                $peer = array(
+                    "peer id" => base64_decode($row["peer_id"]),
+                    "peer_id" => base64_decode($row["peer_id"]),
+                    "ip" => $row["ip"],
+                    "port" => intval($row["port"]),
+                    "client" => $row["client"],
+                    "version" => $row["version"],
+                    "uploaded" => $row["uploaded"],
+                    "downloaded" => $row["downloaded"],
+                    "left" => $row["left"],
+                    "status" => $row["status"],
+                    "isDct" => true,
+                );
+            }
         }
 
         $peers[] = $peer;
     }
+    
+    // in case the compact mode is set, must join
+    // all the peer string into on solo string
+    if($compact == 1) { $peers = implode($peers); }
     
     return $peers;
 }
@@ -87,18 +107,36 @@ function &get_peers(&$db, &$info_hash_b64) {
 function &get_files(&$db) {
     $query = sprintf("select * from file");
     $results = $db->query($query);
-    
+
     $files = array();
     
     while($row = $results->fetchArray()) {
         $file = array(
-            "info_hash" => $row["info_hash"],
+            "info_hash" => base64_decode($row["info_hash"]),
+            "info_hash_b64" => $row["info_hash"],
             "size" => $row["size"],
         );
         $files[] = $file;
     }
     
     return $files;
+}
+
+function &get_file(&$db, &$info_hash_b64) {
+    $query = sprintf("select * from file inner join peer_file on file.info_hash = peer_file.info_hash where file.info_hash = '%s'", $info_hash_b64);
+    $row = $db->querySingle($query, true);
+
+    $file = array(
+        "info_hash" => base64_decode($row["info_hash"]),
+        "info_hash_b64" => $row["info_hash"],
+        "size" => $row["size"],
+    );
+    
+    $file["peers"] = get_peers($db, $info_hash_b64);
+    $file["complete"] = get_complete($db, $info_hash_b64);
+    $file["incomplete"] = get_incomplete($db, $info_hash_b64);
+    
+    return $file;
 }
 
 function &get_complete(&$db, &$info_hash_b64) {
