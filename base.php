@@ -27,7 +27,7 @@ $B_CLIENTS = array(
  * This database stores all the information
  * related with the tracker.
  */
-$DATABASE_PATH = "tracker.db";
+$DATABASE_PATH = "db/ptorrent.db";
 
 function random_string($length) {
     $random = "";
