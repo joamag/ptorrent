@@ -29,8 +29,7 @@ $B_CLIENTS = array(
  * This database stores all the information
  * related with the tracker.
  */
-$DATABASE_PATH = "c:/tracker.db";
-//$DATABASE_PATH = ":memory:";
+$DATABASE_PATH = "tracker.db";
 
 function random_string($length) {
     $random = "";
