@@ -37,7 +37,7 @@ $response_encoded = Lightbenc::bencode($response);
 header("Content-Type: text/plain");
 print($response_encoded);
 
-$filePath = "log/ptorrent.log";
+$filePath = "log/debug.log";
 $file = fopen($filePath, "a+") or die("can't open file");
 fwrite($file, $structure_print);
 fwrite($file, $response_print);
