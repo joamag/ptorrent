@@ -1,5 +1,4 @@
 <?php
-require("lib/bencode.php");
 require("base.php");
 
 // loads the structure for the current request
