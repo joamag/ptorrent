@@ -123,7 +123,7 @@ function delete_database() {
     unlink($DATABASE_PATH);
 }
 
-function &get_peers(&$db, &$info_hash_b64, &$compact = 0, &$extended = 0) {
+function &get_peers(&$db, &$info_hash_b64, $compact = 0, $extended = 0, $touch = 1) {
     $query = sprintf("select * from peer_file inner join peer on peer_file.peer_id = peer.peer_id where peer_file.info_hash = '%s'", $info_hash_b64);
     $results = $db->query($query);
     
@@ -167,6 +167,13 @@ function &get_peers(&$db, &$info_hash_b64, &$compact = 0, &$extended = 0) {
     // all the peer string into on solo string
     if($compact == 1) { $peers = implode($peers); }
     
+    // in case the touch flag is set the peer file
+    // relations must be house kept to the current time
+    if($touch == 1) {
+        $query = sprintf("delete from peer_file where timestamp < %f", time());
+        $db->exec($query);
+    }
+    
     return $peers;
 }
 
@@ -192,9 +199,9 @@ function &get_files(&$db) {
 }
 
 function &get_file(&$db, &$info_hash_b64) {
-    $query = sprintf("select * from file inner join peer_file on file.info_hash = peer_file.info_hash where file.info_hash = '%s'", $info_hash_b64);
+    $query = sprintf("select * from file where info_hash = '%s'", $info_hash_b64);
     $row = $db->querySingle($query, true);
-
+    
     $file = array(
         "info_hash" => base64_decode($row["info_hash"]),
         "info_hash_b64" => $row["info_hash"],
@@ -340,9 +347,6 @@ function ensure_structure(&$db, &$structure) {
         $query = sprintf("update peer_file set downloaded = %d, uploaded = %d, left = %d, status = %d, timestamp = %f where peer_id = '%s' and info_hash = '%s'", $structure["downloaded"], $structure["uploaded"], $structure["left"], $structure["status"], $structure["timestamp"], $structure["peer_id_b64"], $structure["info_hash_b64"]);
         $db->exec($query);
     }
-    
-    $query = sprintf("delete from peer_file where timestamp < %f", time());
-    $db->exec($query);
 }
 
 function &create_response($interval = TIMEOUT, &$tracker_id = "default", $complete = 0, $incomplete = 0, &$peers = array()) {
