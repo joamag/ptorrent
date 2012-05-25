@@ -123,13 +123,15 @@ function delete_database() {
     unlink($DATABASE_PATH);
 }
 
+function touch_peers(&$db) {
+    $query = sprintf("delete from peer_file where timestamp < %f", time());
+    $db->exec($query);
+}
+
 function &get_peers(&$db, &$info_hash_b64, $compact = 0, $extended = 0, $touch = 1) {
     // in case the touch flag is set the peer file
     // relations must be house kept to the current time
-    if($touch == 1) {
-        $query = sprintf("delete from peer_file where timestamp < %f", time());
-        $db->exec($query);
-    }
+    if($touch == 1) { touch_peers($db); }
 
     $query = sprintf("select * from peer_file left join peer on peer_file.peer_id = peer.peer_id where peer_file.info_hash = '%s'", $info_hash_b64);
     $results = $db->query($query);
