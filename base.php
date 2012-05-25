@@ -124,7 +124,7 @@ function delete_database() {
 }
 
 function &get_peers(&$db, &$info_hash_b64, $compact = 0, $extended = 0, $touch = 1) {
-    $query = sprintf("select * from peer_file inner join peer on peer_file.peer_id = peer.peer_id where peer_file.info_hash = '%s'", $info_hash_b64);
+    $query = sprintf("select * from peer_file left join peer on peer_file.peer_id = peer.peer_id where peer_file.info_hash = '%s'", $info_hash_b64);
     $results = $db->query($query);
     
     $peers = array();
