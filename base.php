@@ -370,8 +370,4 @@ function &create_response($interval = TIMEOUT, &$tracker_id = "default", $comple
     // the requesting client
     return $response;
 }
-
-// sets the default timezone, required to avoid
-// problems with the interpreter
-date_default_timezone_set("UTC");
 ?>
