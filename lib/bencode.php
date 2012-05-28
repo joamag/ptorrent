@@ -2,9 +2,9 @@
 /* lightbenc.php
 
 
-	Dear Bram Cohen,
-		You are an arse
-	WHAT were you smoking ?
+    Dear Bram Cohen,
+        You are an arse
+    WHAT were you smoking ?
 
 
 
@@ -39,8 +39,8 @@ This is necessary since PHP makes no distinction between flat and associative ar
 key is allways set as a bool, so that even if the dictionary contains an actual "isDct" value, the
 functions behave transparently, i.e. they don't strip out or overwrite actual "isDct" keys.
 Bencoded integers are stored as PHP floats, which typically have at least 51 bits of integer precision,
-as opposed to PHP ints which provide only 31 bits of precision on a 32 bit compiled PHP. 
-If you are certain that the code will only run on a 64 bit machine, with a 64 bit PHP, you can replace 
+as opposed to PHP ints which provide only 31 bits of precision on a 32 bit compiled PHP.
+If you are certain that the code will only run on a 64 bit machine, with a 64 bit PHP, you can replace
 all float with ints in all tests and casts, and gain a whooping 2^63 integer range.
 
 This implementation is not a drop-in replacement of the TBDev code, hence the new function names
@@ -65,12 +65,12 @@ this in the input stream, and will keep the order unchanged.
 This implementation is hereby released under the GFYPL, version 1.00.
 
 
-	The Go Fuck Yourself Public License, version 1.00
+    The Go Fuck Yourself Public License, version 1.00
 
-	Article 1
-	You can go fuck yourself.
+    Article 1
+    You can go fuck yourself.
 
-	END OF ALL TERMS AND CONDITIONS
+    END OF ALL TERMS AND CONDITIONS
 
 */
 
@@ -113,8 +113,8 @@ class Lightbenc{
             $pos+=$digits+1;
             return $val;
 
-    //	case "0": case "1": case "2": case "3": case "4":
-    //	case "5": case "6": case "7": case "8": case "9":
+    //    case "0": case "1": case "2": case "3": case "4":
+    //    case "5": case "6": case "7": case "8": case "9":
         default:
             $digits=strpos($s, ':', $pos)-$pos;
             if ($digits<0 || $digits >20)

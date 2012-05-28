@@ -1,11 +1,11 @@
 <html>
-	<head>
-		<title>File</title>
-	</head>
-	<body>
-		<ul>
+    <head>
+        <title>File</title>
+    </head>
+    <body>
+        <ul>
             <li>Name -> {$file.name}</li>
-			<li>Info Hash -> {$file.info_hash_b64}</li>
+            <li>Info Hash -> {$file.info_hash_b64}</li>
             <li>Size -> {$file.size}</li>
             <li>Seeders -> {$file.complete}</li>
             <li>Leachers -> {$file.incomplete}</li>
@@ -23,5 +23,5 @@
                 <li></li>
             {/foreach}
         </ul>
-	</body>
+    </body>
 </html>

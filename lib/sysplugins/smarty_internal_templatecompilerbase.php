@@ -275,10 +275,10 @@ abstract class Smarty_Internal_TemplateCompilerBase {
                         if ($plugin_type == Smarty::PLUGIN_COMPILER) {
                             $new_args = array();
                             foreach ($args as $key => $mixed) {
-                            	if (is_array($mixed)) {
-                                	$new_args = array_merge($new_args, $mixed);
+                                if (is_array($mixed)) {
+                                    $new_args = array_merge($new_args, $mixed);
                                 } else {
-                                	$new_args[$key] = $mixed;
+                                    $new_args[$key] = $mixed;
                                 }
                             }
                             if (!$this->smarty->registered_plugins[$plugin_type][$tag][1]) {
@@ -308,10 +308,10 @@ abstract class Smarty_Internal_TemplateCompilerBase {
                             // convert arguments format for old compiler plugins
                             $new_args = array();
                             foreach ($args as $key => $mixed) {
-                            	if (is_array($mixed)) {
-                                	$new_args = array_merge($new_args, $mixed);
+                                if (is_array($mixed)) {
+                                    $new_args = array_merge($new_args, $mixed);
                                 } else {
-                                	$new_args[$key] = $mixed;
+                                    $new_args[$key] = $mixed;
                                 }
                             }
                             return $plugin($new_args, $this->smarty);

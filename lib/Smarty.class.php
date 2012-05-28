@@ -189,8 +189,8 @@ class Smarty extends Smarty_Internal_TemplateBase {
      * Flag denoting if PCRE should run in UTF-8 mode
      */
     public static $_UTF8_MODIFIER = 'u';
-    
-    
+
+
     /**#@+
      * variables
      */
@@ -1277,7 +1277,7 @@ class Smarty extends Smarty_Internal_TemplateBase {
         }
         // plugin filename is expected to be: [type].[name].php
         $_plugin_filename = "{$_name_parts[1]}.{$_name_parts[2]}.php";
-        
+
         $_stream_resolve_include_path = function_exists('stream_resolve_include_path');
 
         // loop through plugin dirs and find the plugin
@@ -1298,7 +1298,7 @@ class Smarty extends Smarty_Internal_TemplateBase {
                     } else {
                         $file = Smarty_Internal_Get_Include_Path::getIncludePath($file);
                     }
-                    
+
                     if ($file !== false) {
                         require_once($file);
                         return $file;

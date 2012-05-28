@@ -299,7 +299,7 @@ class Smarty_Internal_Utility {
             echo "Smarty Installation test...\n";
             echo "Testing template directory...\n";
         }
-        
+
         $_stream_resolve_include_path = function_exists('stream_resolve_include_path');
 
         // test if all registered template_dir are accessible
@@ -315,7 +315,7 @@ class Smarty_Internal_Utility {
                     } else {
                         $template_dir = Smarty_Internal_Get_Include_Path::getIncludePath($_template_dir);
                     }
-                    
+
                     if ($template_dir !== false) {
                         if ($errors === null) {
                             echo "$template_dir is OK.\n";
@@ -436,7 +436,7 @@ class Smarty_Internal_Utility {
                     } else {
                         $plugin_dir = Smarty_Internal_Get_Include_Path::getIncludePath($_plugin_dir);
                     }
-                    
+
                     if ($plugin_dir !== false) {
                         if ($errors === null) {
                             echo "$plugin_dir is OK.\n";
@@ -568,7 +568,7 @@ class Smarty_Internal_Utility {
                     } else {
                         $config_dir = Smarty_Internal_Get_Include_Path::getIncludePath($_config_dir);
                     }
-                    
+
                     if ($config_dir !== false) {
                         if ($errors === null) {
                             echo "$config_dir is OK.\n";
