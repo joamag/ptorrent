@@ -2,23 +2,8 @@
 require("conf/base.php");
 require("lib/bencode.php");
 require("log.php");
+require("database.php");
 require("template.php");
-
-function &get_database() {
-    // refers the global reference to the database
-    // path to be used in the current context
-    global $DATABASE_PATH;
-
-    // operates the database updating all the required structure
-    // values according to the client loop
-    $db = new SQLite3($DATABASE_PATH);
-    $is_new && create_database($db);
-    $is_new && create_configuration($db);
-
-    // returns the just created dabase to be used by the
-    // caller (ready for operations)
-    return $db;
-}
 
 function get_params() {
     $query  = explode("&", $_SERVER["QUERY_STRING"]);
