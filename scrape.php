@@ -7,7 +7,9 @@ $params = get_params();
 
 // creates the list that will hold the various
 // files to send the scrape information
-$files = array();
+$files = array(
+    "isDct" => true,
+);
 
 // operates the database updating all the required structure
 // values according to the client loop
@@ -19,22 +21,26 @@ foreach($params["info_hash"] as $info_hash) {
     $info_hash_b64 = base64_encode($info_hash);
     $file = get_scrap($db, $info_hash_b64);
     $files[$info_hash] = $file;
-    $files[$info_hahs]["isDct"] = true;
+    $files[$info_hash]["isDct"] = true;
 }
 $db->close();
 
-// converts the files map into a string (for latter logging)
-// and then encodes the files map into bencode in order to
-// be sent as the response
-$files_string = print_r($files, true);
-$files_encoded = Lightbenc::bencode($files);
+// creates the array that will hold the response and then 
+// converts it into a string (for latter logging), then encodes
+// it into bencode in order to be sent as the response
+$response = array(
+    "files" => $files,
+    "isDct" => true,
+);
+$response_string = print_r($response, true);
+$response_encoded = Lightbenc::bencode($response);
 
 // sets the appropriate content type for the request
-// and then prints the encoded files
+// and then prints the encoded response
 header("Content-Type: text/plain");
-print($files_encoded);
+print($response_encoded);
 
 // logs the various structures into the current log
 // file for latter reference
-log_message($files_string);
+log_message($response_string);
 ?>
