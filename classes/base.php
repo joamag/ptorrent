@@ -1,36 +1,24 @@
 <?php
+require("conf/base.php");
 require("lib/bencode.php");
 require("log.php");
+require("template.php");
 
-/**
- * The default timeout value to be used in between
- * request to the tracker from the clients.
- */
-define("TIMEOUT", 120);
+function &get_database() {
+    // refers the global reference to the database
+    // path to be used in the current context
+    global $DATABASE_PATH;
 
-/**
- * The tolerance value "given" to the client so that
- * it can provide an accurate update.
- */
-define("TOLERANCE", TIMEOUT / 6);
+    // operates the database updating all the required structure
+    // values according to the client loop
+    $db = new SQLite3($DATABASE_PATH);
+    $is_new && create_database($db);
+    $is_new && create_configuration($db);
 
-/**
- * The map associating the client
- * id preffix with the name of the
- * client it corresponds.
- */
-$B_CLIENTS = array(
-    "AZ" => "Azureus",
-    "BC" => "BitComet",
-    "UT" => "uTorrent",
-);
-
-/**
- * The path to the database for the tracked.
- * This database stores all the information
- * related with the tracker.
- */
-$DATABASE_PATH = "db/ptorrent.db";
+    // returns the just created dabase to be used by the
+    // caller (ready for operations)
+    return $db;
+}
 
 function get_params() {
     $query  = explode("&", $_SERVER["QUERY_STRING"]);

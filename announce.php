@@ -1,20 +1,14 @@
 <?php
-require("base.php");
+require("classes/base.php");
 
 // loads the structure for the current request
 // and then loads it string value
 $structure = load_structure();
 $structure_print = print_r($structure, true);
 
-// checks if the database file path exits in case
-// it does not (assumes new database)
-$is_new = !file_exists($DATABASE_PATH);
-
 // operates the database updating all the required structure
 // values according to the client loop
-$db = new SQLite3($DATABASE_PATH);
-$is_new && create_database($db);
-$is_new && create_configuration($db);
+$db = get_database();
 $valid = validate_structure($structure);
 $valid && ensure_structure($db, $structure);
 $complete = $valid ? get_complete($db, $structure["info_hash_b64"]) : 0;

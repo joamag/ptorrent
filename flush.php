@@ -1,5 +1,5 @@
 <?php
-require("base.php");
+require("classes/base.php");
 
 // checks if the database file path exits in case
 // it does not (assumes new database)

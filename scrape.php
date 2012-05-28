@@ -1,5 +1,5 @@
 <?php
-require("base.php");
+require("classes/base.php");
 
 // retrieves the current set of get params
 // as sequences instead of single values
@@ -13,9 +13,7 @@ $files = array(
 
 // operates the database updating all the required structure
 // values according to the client loop
-$db = new SQLite3($DATABASE_PATH);
-$is_new && create_database($db);
-$is_new && create_configuration($db);
+$db = get_database();
 if(!$params["info_hash"]) { $params["info_hash"] = get_files_info_hash($db); }
 foreach($params["info_hash"] as $info_hash) {
     $info_hash_b64 = base64_encode($info_hash);
@@ -25,7 +23,7 @@ foreach($params["info_hash"] as $info_hash) {
 }
 $db->close();
 
-// creates the array that will hold the response and then 
+// creates the array that will hold the response and then
 // converts it into a string (for latter logging), then encodes
 // it into bencode in order to be sent as the response
 $response = array(
