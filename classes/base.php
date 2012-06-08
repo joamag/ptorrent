@@ -9,7 +9,7 @@ function get_params() {
     $query  = explode("&", $_SERVER["QUERY_STRING"]);
     $params = array();
 
-    foreach($query as $param) {
+    foreach($query as &$param) {
         list($name, $value) = explode("=", $param);
         $params[urldecode($name)][] = urldecode($value);
     }
