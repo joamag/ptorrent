@@ -28,7 +28,7 @@ function random_string($length) {
 function flush_files(&$db, &$path, $delete = true) {
     $handle = opendir($path);
 
-    while(true){
+    while(true) {
         $file_name = readdir($handle);
 
         if($file_name === false) { break; }
