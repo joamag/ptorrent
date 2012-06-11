@@ -1,7 +1,7 @@
 <?php
 require("classes/base.php");
 
-if($_SERVER["REQUEST_TYPE"] == "POST") {
+if($_SERVER["REQUEST_METHOD"] == "POST") {
     // retrieves the both the name of the file
     // and the path to it, then uses those values
     // to copy the file into the appropriate path
