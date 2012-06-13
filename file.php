@@ -1,5 +1,5 @@
 <?php
-require("classes/base.php");
+require_once("classes/base.php");
 
 // retrieves the parameters to the execution
 $info_hash_b64 = $_GET["info_hash"];

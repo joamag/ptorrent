@@ -1,5 +1,5 @@
 <?php
-require("classes/base.php");
+require_once("classes/base.php");
 
 // loads the structure for the current request
 // and then loads it string value

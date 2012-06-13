@@ -1,5 +1,5 @@
 <?php
-require("lib/Smarty.class.php");
+require_once("lib/Smarty.class.php");
 
 $smarty = new Smarty();
 $smarty->setTemplateDir("res/templates");

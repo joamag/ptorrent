@@ -1,5 +1,5 @@
 <?php
-require("classes/base.php");
+require_once("classes/base.php");
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     // retrieves the both the name of the file

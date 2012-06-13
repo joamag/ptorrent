@@ -1,5 +1,5 @@
 <?php
-require("classes/base.php");
+require_once("classes/base.php");
 
 // retrieves the current set of get params
 // as sequences instead of single values

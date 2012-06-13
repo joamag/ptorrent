@@ -1,9 +1,9 @@
 <?php
-require("conf/base.php");
-require("lib/bencode.php");
-require("log.php");
-require("database.php");
-require("template.php");
+require_once("conf/base.php");
+require_once("lib/bencode.php");
+require_once("log.php");
+require_once("database.php");
+require_once("template.php");
 
 function get_params() {
     $query  = explode("&", $_SERVER["QUERY_STRING"]);
