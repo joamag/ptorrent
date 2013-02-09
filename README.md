@@ -12,4 +12,4 @@ your web server has write permissions on the database files directory (`db`) dir
 Write permission may also be required for the templates cache directory (`templates_c`).
 
 ## Reference
-Implemented according to the [bitorrent official specification](http://wiki.theory.org/BitTorrentSpecification).
+The tracker has been implemented according to the [bitorrent official specification](http://wiki.theory.org/BitTorrentSpecification).
