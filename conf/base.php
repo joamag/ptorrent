@@ -28,4 +28,15 @@ $B_CLIENTS = array(
     "BC" => "BitComet",
     "UT" => "uTorrent",
 );
+
+/**
+ * The timezone to be used for time
+ * based operation in the system, should
+ * be set to the local value of the system.
+ */
+$TIMEZONE = "UTC";
+
+// defines the default time zone configuration,
+// this is a system wide operation
+date_default_timezone_set($TIMEZONE);
 ?>
