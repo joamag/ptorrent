@@ -3,7 +3,8 @@
 Simple tracker for the bittorrent protocol implemented in PHP.
 
 It's implementing using a simple local SQLite database and provides support for both
-the tracking and for a simple web interface for exploration and management.
+the tracking and for a simple web interface for exploration and management. It currently
+supports both announcing (`anounce.php`) and scrapping (`scrape.php`).
 
 ## Installation
 
