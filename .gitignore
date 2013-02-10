@@ -1,0 +1,4 @@
+*.db
+
+res/cache/
+res/templates_c/
