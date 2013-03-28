@@ -1,4 +1,5 @@
 *.db
+*.log
 
-res/cache/
-res/templates_c/
+/res/cache/
+/res/templates_c/
