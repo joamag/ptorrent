@@ -9,5 +9,5 @@ $file = get_file($db, $info_hash_b64);
 $db->close();
 
 $smarty->assign("file", $file);
-$smarty->display("file.tpl");
+$smarty->display("file.html.tpl");
 ?>

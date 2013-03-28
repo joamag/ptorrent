@@ -6,5 +6,5 @@ $files = get_files($db);
 $db->close();
 
 $smarty->assign("files", $files);
-$smarty->display("files.tpl");
+$smarty->display("files.html.tpl");
 ?>

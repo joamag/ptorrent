@@ -16,5 +16,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $db->close();
 }
 
-$smarty->display("upload.tpl");
+$smarty->display("upload.html.tpl");
 ?>

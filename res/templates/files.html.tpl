@@ -1,5 +1,6 @@
-{extends file="partials/layout.tpl"}
+{extends file="partials/layout.html.tpl"}
 {block name=title}Files{/block}
+{block name=name}Files{/block}
 {block name=body}
 <ul>
     {foreach from=$files item=file}

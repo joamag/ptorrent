@@ -1,5 +1,6 @@
-{extends file="partials/layout.tpl"}
+{extends file="partials/layout.html.tpl"}
 {block name=title}Index{/block}
+{block name=name}pTorrent{/block}
 {block name=body}
 <ul>
     <li><a href="files.php">Files</a></li>
