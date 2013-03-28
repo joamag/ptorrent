@@ -1,9 +1,3 @@
 [submodule "res/public_html/libs/layout"]
 	path = res/public_html/libs/layout
 	url = git@github.com:hivesolutions/layout.git
-[submodule "res/libs/uxf"]
-	path = res/libs/uxf
-	url = git@github.com:hivesolutions/uxf_bin.git
-[submodule "res/libs/layout"]
-	path = res/libs/layout
-	url = git@github.com:hivesolutions/layout.git
