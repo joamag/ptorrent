@@ -27,6 +27,9 @@ $B_CLIENTS = array(
     "AZ" => "Azureus",
     "BC" => "BitComet",
     "UT" => "uTorrent",
+    "FG" => "FlashGet",
+    "CD" => "CTorrent",
+    "VR" => "Viriatum",
 );
 
 /**
