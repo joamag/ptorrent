@@ -1,6 +1,6 @@
 {extends file="partials/layout.html.tpl"}
-{block name=title}File{/block}
-{block name=name}File{/block}
+{block name=title}About{/block}
+{block name=name}About{/block}
 {block name=body}
 <div class="quote">
     The complete project was developed by the <a href="http://hive.pt">Hive Solutions</a><br />
