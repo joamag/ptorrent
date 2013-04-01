@@ -8,6 +8,7 @@ $db = get_database();
 $file = get_file($db, $info_hash_b64);
 $db->close();
 
+$smarty->assign("link", "files");
 $smarty->assign("file", $file);
 $smarty->display("file.html.tpl");
 ?>
