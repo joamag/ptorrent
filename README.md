@@ -18,5 +18,7 @@ To be able to create torrent files and upload them to the tracker use the [mktor
 utility menat to be used from a command line interface. Note that the win32 port uses cygwin
 and is not possible to compile it using msvc.
 
+    mktorrent --announce=http://localhost/announce.php example.txt
+
 ## Reference
 The tracker has been implemented according to the [bitorrent official specification](http://wiki.theory.org/BitTorrentSpecification).
