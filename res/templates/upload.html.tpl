@@ -1,4 +1,4 @@
-{extends file="partials/layout.tpl"}
+{extends file="partials/layout.html.tpl"}
 {block name=title}Upload{/block}
 {block name=name}Upload{/block}
 {block name=body}

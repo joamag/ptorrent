@@ -6,7 +6,7 @@ require_once("database.php");
 require_once("template.php");
 
 function get_params() {
-    $query  = explode("&", $_SERVER["QUERY_STRING"]);
+    $query = explode("&", $_SERVER["QUERY_STRING"]);
     $params = array();
 
     foreach($query as &$param) {
@@ -119,18 +119,28 @@ function &get_peers(&$db, &$info_hash_b64, $compact = 0, $extended = 0, $touch =
     // relations must be house kept to the current time
     if($touch == 1) { touch_peers($db); }
 
+    // creates the query to select the complete set of
+    // peers for the file with the provided info hash
+    // and executes it retrieving the results
     $query = sprintf("select * from peer_file left join peer on peer_file.peer_id = peer.peer_id where peer_file.info_hash = '%s'", $info_hash_b64);
     $results = $db->query($query);
 
+    // creates the array that will contain the complete
+    // set of peers and iterates over the results to
+    // contruct the set from the results
     $peers = array();
-
     while($row = $results->fetchArray()) {
+        // in case the retrieval type is compact only
+        // the ip information and port should be returned
         if($compact == 1) {
             $port = intval($row["port"]);
             $ip_split = explode(".", $row["ip"]);
             $ip_integer = intval($ip_split[0]) << 24 | intval($ip_split[1]) << 16 | intval($ip_split[2]) << 8 | intval($ip_split[3]);
             $peer = pack("Nn", $ip_integer, $port);
-        } else {
+        }
+        // otherwise the normal (full) mode should be used
+        // and the peer should include much more information
+        else {
             if($extended == 1) {
                 $peer = array(
                     "peer id" => base64_decode($row["peer_id"]),
@@ -155,6 +165,8 @@ function &get_peers(&$db, &$info_hash_b64, $compact = 0, $extended = 0, $touch =
             }
         }
 
+        // adds the created peer structure to the list
+        // of peers for the requested file
         $peers[] = $peer;
     }
 
@@ -162,6 +174,8 @@ function &get_peers(&$db, &$info_hash_b64, $compact = 0, $extended = 0, $touch =
     // all the peer string into on solo string
     if($compact == 1) { $peers = implode($peers); }
 
+    // returns the list of peers that was just contructed
+    // to the caller method
     return $peers;
 }
 
