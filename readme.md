@@ -1,3 +1,3 @@
 # pTorrent
 
-Simple http tracker for torrent.
+Simple HTTP tracker for torrent.
